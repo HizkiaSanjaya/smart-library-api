@@ -7,10 +7,9 @@ export const LoanController = {
       const loan = await LoanModel.createLoan(book_id, member_id, due_date);
       res.status(201).json({
         message: "Peminjaman berhasil dicatat!",
-        data: loan
+        data: loan,
       });
     } catch (err) {
-      // Jika stok habis atau ID salah, kirim status 400 (Bad Request)
       res.status(400).json({ error: err.message });
     }
   },
@@ -19,6 +18,16 @@ export const LoanController = {
     try {
       const loans = await LoanModel.getAllLoans();
       res.json(loans);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
+  // FUNGSI BARU UNTUK RESPONSI (PASTIKAN NAMA SESUAI DENGAN DI ROUTES)
+  async getTopBorrowers(req, res) {
+    try {
+      const topBorrowers = await LoanModel.getTopBorrowers();
+      res.json(topBorrowers);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
